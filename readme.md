@@ -4,7 +4,7 @@ Helps you construct a custom string parser, for times when you need something mo
 
 ## Installation
 
-Requires [Node.js](https://nodejs.org/) 7.0.0 or above.
+Requires [Node.js](https://nodejs.org/) 8.3.0 or above.
 
 ```bash
 npm i parser-factory

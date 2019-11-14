@@ -18,19 +18,19 @@
   "main": "index.js",
   "files": [],
   "engines": {
-    "node": ">=7.0.0"
+    "node": ">=8.3.0"
   },
   "dependencies": {
-    "arrify": "^1.0.1",
+    "arrify": "^2.0.1",
     "case-insensitive": "^1.0.0",
     "enforce-range": "^1.0.0",
-    "is-instance-of": "^1.0.1",
+    "is-instance-of": "^1.0.2",
     "longest-first": "^1.0.0",
     "m-o": "^2.2.0",
     "vfn": "^1.1.0"
   },
   "devDependencies": {
-    "eslint-config-lamansky": "^1.0.0"
+    "eslint-config-lamansky": "^2.0.0"
   },
   "eslintConfig": {
     "extends": "lamansky"

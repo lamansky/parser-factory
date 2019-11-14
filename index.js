@@ -57,13 +57,13 @@ module.exports = (defaultController, controllers) => (userStr, ...userArgs) => (
       consume(end)
       return result
     }
-    const until = vfn({arg: 0, oo: true}, (ends, {escape, ignore} = {}) => {
+    const until = vfn({arg: 0, oo: true}, (ends, {escape: esc, ignore} = {}) => {
       let substr = ''
       while (char()) {
         if (is(...ends)) break
         let found = false
         for (const end of ends) {
-          if (consume(escape + end)) {
+          if (consume(esc + end)) {
             substr += end
             found = true
             break
@@ -73,7 +73,7 @@ module.exports = (defaultController, controllers) => (userStr, ...userArgs) => (
       }
       return substr
     })
-    const untilEnd = (start, end, {escape, ignore} = {}) => {
+    const untilEnd = (start, end, {escape: esc, ignore} = {}) => {
       let substr = ''
       let nestLevel = 0
 
@@ -84,12 +84,12 @@ module.exports = (defaultController, controllers) => (userStr, ...userArgs) => (
           nestLevel++
         } else if (is(end)) {
           if (nestLevel-- === 0) return substr
-        } else if (escape) {
-          if (consume(escape + start)) {
+        } else if (esc) {
+          if (consume(esc + start)) {
             substr += start
             continue
           }
-          if (consume(escape + end)) {
+          if (consume(esc + end)) {
             substr += end
             continue
           }
