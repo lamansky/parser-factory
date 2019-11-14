@@ -52,15 +52,21 @@ module.exports = (defaultController, controllers) => (userStr, ...userArgs) => (
     }
     const shift = (number = 1) => { const chars = char(number); pos = r(pos + number); return chars }
     const sub = (subController, subStr, subTempArgObj) => parseStr(subController, subStr, permArgObj, subTempArgObj)
+    const through = vfn({arg: 0, oo: true}, (ends, options = {}) => {
+      return until(...ends, {...options, inclusive: true})
+    })
     const throughEnd = (start, end, ...args) => {
       const result = untilEnd(start, end, ...args)
       consume(end)
       return result
     }
-    const until = vfn({arg: 0, oo: true}, (ends, {escape: esc, ignore} = {}) => {
+    const until = vfn({arg: 0, oo: true}, (ends, {escape: esc, ignore, inclusive} = {}) => {
       let substr = ''
       while (char()) {
-        if (is(...ends)) break
+        if (is(...ends)) {
+          if (inclusive) substr += consume(...ends)
+          break
+        }
         let found = false
         for (const end of ends) {
           if (consume(esc + end)) {
@@ -109,7 +115,7 @@ module.exports = (defaultController, controllers) => (userStr, ...userArgs) => (
       return false
     }
 
-    return get(controllers, controllerId)({bracket, call, char, consume, consumeWhile, is, push, shift, sub, throughEnd, until, untilEnd}, permArgObj, tempArgObj)
+    return get(controllers, controllerId)({bracket, call, char, consume, consumeWhile, is, push, shift, sub, through, throughEnd, until, untilEnd}, permArgObj, tempArgObj)
   }
 
   const cbr = callController(initialController, initialTempArgObj)
