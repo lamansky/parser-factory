@@ -27,6 +27,12 @@ module.exports = (defaultController, controllers) => (userStr, ...userArgs) => (
       }
       return ''
     })
+    const consumeRest = vfn({arg: 0, oo: true}, (substrings, options = {}) => {
+      for (const substring of longestFirst(substrings)) {
+        if (isOnly(substring, options)) return shift(substring.length)
+      }
+      return ''
+    })
     const consumeWhile = test => {
       let substr = ''
       if (typeof test === 'string') {
@@ -41,6 +47,7 @@ module.exports = (defaultController, controllers) => (userStr, ...userArgs) => (
       return substr
     }
     const is = vfn({arg: 0, oo: true}, (substrings, {ci} = {}) => substrings.some(ci ? ss => caseInsensitive(char(ss.length)).equals(ss) : ss => char(ss.length) === ss))
+    const isOnly = vfn({arg: 0, oo: true}, (substrings, {ci} = {}) => substrings.some(ci ? ss => caseInsensitive(char(Infinity)).equals(ss) : ss => char(Infinity) === ss))
     const push = elem => {
       if (typeof elem === 'string' && (typeof out === 'string' || typeof out === 'undefined')) {
         if (typeof out === 'undefined') out = ''
@@ -115,7 +122,9 @@ module.exports = (defaultController, controllers) => (userStr, ...userArgs) => (
       return false
     }
 
-    return get(controllers, controllerId)({bracket, call, char, consume, consumeWhile, is, push, shift, sub, through, throughEnd, until, untilEnd}, permArgObj, tempArgObj)
+    return get(controllers, controllerId)({
+      bracket, call, char, consume, consumeRest, consumeWhile, is, isOnly, push, shift, sub, through, throughEnd, until, untilEnd,
+    }, permArgObj, tempArgObj)
   }
 
   const cbr = callController(initialController, initialTempArgObj)
