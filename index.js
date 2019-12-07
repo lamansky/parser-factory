@@ -16,8 +16,8 @@ module.exports = (defaultController, controllers) => (userStr, ...userArgs) => (
   function callController (controllerId, tempArgObj) {
     if (!has(controllers, controllerId)) throw new RangeError('Controller not registered: ' + controllerId)
 
-    const bracket = (nextControllerId, start, end, ...args) => {
-      return sub(nextControllerId, throughEnd(start, end, ...args))
+    const bracket = (nextControllerId, start, end, throughEndArg, subArg) => {
+      return sub(nextControllerId, throughEnd(start, end, throughEndArg), subArg)
     }
     const call = (nextControllerId, newTempArgObj) => callController(nextControllerId, newTempArgObj)
     const char = (len = 1, offset = 0) => str.substring(...[r(pos + offset), r(pos + offset + len)].sort())
